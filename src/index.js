@@ -5,21 +5,39 @@ const root = document.getElementById('root')
 
 class App extends React.Component {
   state = {
-    firstName : ''
+    firstName: '',
+    lastName: '',
+    country: '',
+    title: ''
   }
 
   handleOnChange = (e) => {
-    let value = e.target.value
-    this.setState({firstName : value})
+    const { name, value } = e.target
+    this.setState({ [name]: value })
   }
 
-  render(){
-    let firstName = this.state.firstName
+  handleOnSubmit = (e) => {
+    e.preventDefault()
+    console.log(this.state)
+  }
 
-    return(
-      <div>
-        <input type='text' onChange={this.handleOnChange}></input>
-        <p>{firstName}</p>
+  render() {
+
+
+    return (
+      <div className=''>
+        <div className='row mt-5 justify-content-center'>
+          <h3 className='text-center'>Add Student</h3>
+          <div className='col-sm-5 m-2 border shadow p-3 rounded'>
+            <form onSubmit={this.handleOnSubmit}>
+              <input className='form-control mt-3' placeholder='Firstname' type='text' name='firstName' onChange={this.handleOnChange} key='firstname'></input>
+              <input className='form-control mt-3' placeholder='LastName' type='text' name='lastName' onChange={this.handleOnChange} key='firstname'></input>
+              <input className='form-control mt-3' placeholder='Country' type='text' name='country' onChange={this.handleOnChange} key='firstname'></input>
+              <input className='form-control mt-3' placeholder='Title' type='text' name='title' onChange={this.handleOnChange} key='firstname'></input>
+              <button type='submit' className='btn btn-primary mt-3'>Submit</button>
+            </form>
+          </div>
+        </div>
       </div>
     )
   }
