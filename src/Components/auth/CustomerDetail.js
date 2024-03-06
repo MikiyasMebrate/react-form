@@ -7,7 +7,7 @@ class ClientDetail extends React.Component {
     state = {
         clientName: '',
         companyName: '',
-        title: '',
+        email: '',
         department: '',
         contact: {
             email: false,
@@ -25,7 +25,7 @@ class ClientDetail extends React.Component {
         touched: {
             clientName: false,
             companyName: false,
-            title: false,
+            email: false,
             department: false,
             contact: false,
             address: false,
@@ -52,24 +52,42 @@ class ClientDetail extends React.Component {
         let message = {
             error: {
                 errclientName: false,
-                companyName: false,
+                errcompanyName: false,
+                errEmail : false
             },
             success: {
                 successclientName: false,
-                companyName: false,
+                successcompanyName: false,
+                successEmail : false
             }
 
         }
 
 
-        if (this.state.touched.clientName && validator.isAlpha(this.state.clientName)) {
+        if (this.state.touched.clientName && validator.isAlpha(this.state.clientName)  && this.state.clientName.length > 2 ) {
             message.error.errclientName = false
             message.success.successclientName = 'Looks good!'
         }
-        else if ((this.state.touched.clientName && !validator.isAlpha(this.state.clientName)) || (this.state.touched.clientName && validator.isEmpty(this.state.clientName))) {
+        if ((this.state.touched.clientName && !validator.isAlpha(this.state.clientName)) || (this.state.touched.clientName && validator.isEmpty(this.state.clientName)) || (this.state.touched.clientName && this.state.clientName.length < 3)) {
             message.success.successclientName = false
             message.error.errclientName = 'Please Enter Valid Name'
         }
+        if (this.state.touched.companyName && this.state.companyName.length > 2 ) {
+            message.error.errcompanyName = false
+            message.success.successcompanyName = 'Looks good!'
+        }
+        if ((this.state.touched.companyName && validator.isEmpty(this.state.companyName)) || (this.state.touched.companyName && this.state.companyName.length < 2)) {
+            message.success.successcompanyName = false
+            message.error.errcompanyName = 'Please Enter Valid Name'
+        }
+        if (this.state.touched.email && validator.isEmail(this.state.email) ) {
+            message.error.errEmail = false
+            message.success.successEmail = 'Looks good!'
+        }else if(this.state.touched.email && !validator.isEmail(this.state.email)){
+            message.success.successEmail = false
+            message.error.errEmail = 'Please Enter Valid Email'
+        }
+
 
         return message
     }
@@ -89,8 +107,8 @@ class ClientDetail extends React.Component {
                             <form onSubmit={this.handleOnSubmit}>
 
                                 <Input errMesg={error.errclientName} succMesg={success.successclientName} handleOnBlur={this.handleOnBlur} handleOnChange={this.handleOnChange} type='text' className={'form-control'} text='Client name *' id={'clientName'} name={'clientName'} placeholder={'Abebe Kebede'} />
-                                <Input handleOnBlur={this.handleOnBlur} handleOnChange={this.handleOnChange} type='text' className={'form-control'} text='Company Name *' id={'companyName'} name={'companyName'} placeholder={'MoPD'} />
-                                <Input handleOnBlur={this.handleOnBlur} handleOnChange={this.handleOnChange} type='text' className={'form-control'} text='Title *' id={'title'} name={'title'} placeholder={'Software Engineer'} />
+                                <Input errMesg={error.errcompanyName} succMesg={success.successcompanyName} handleOnBlur={this.handleOnBlur} handleOnChange={this.handleOnChange} type='text' className={'form-control'} text='Company Name *' id={'companyName'} name={'companyName'} placeholder={'MoPD'} />
+                                <Input errMesg={error.errEmail} succMesg={success.successEmail} handleOnBlur={this.handleOnBlur} handleOnChange={this.handleOnChange} type='email' className={'form-control'} text='Emali *' id={'email'} name={'email'} placeholder={'example@email.com'} />
 
                                 <button className="btn btn-primary mt-3">Submit</button>
                             </form>
